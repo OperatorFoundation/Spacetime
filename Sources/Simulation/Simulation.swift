@@ -74,7 +74,7 @@ public class Simulation
                     skip()
 
                 default:
-                    logAThing(logger: logger, logMessage: "\(effect.description)")
+                    logAThing(logger: logger, logMessage: "⭐️ \(effect.description)")
             }
 
             var handled = false
@@ -87,7 +87,7 @@ public class Simulation
 
                     if let response = module.handleEffect(effect, self.events)
                     {
-                        logAThing(logger: logger, logMessage: "\(response.description) ")
+                        logAThing(logger: logger, logMessage: "💫 \(response.description) ")
                         events.enqueue(element: response)
                     }
 
@@ -108,7 +108,7 @@ public class Simulation
                 {
                     if let response = module.handleEffect(effect, self.events)
                     {
-                        logAThing(logger: logger, logMessage: "\(response.description) ")
+                        logAThing(logger: logger, logMessage: "💫 \(response.description) ")
                         events.enqueue(element: response)
                     }
 
@@ -122,7 +122,7 @@ public class Simulation
             }
 
             let response = Failure(effect.id, file: #file, fileID: #fileID, filePath: #filePath, line: #line, column: #column, function: #function)
-            logAThing(logger: logger, logMessage: response.description)
+            logAThing(logger: logger, logMessage: "💫 \(response.description)")
             events.enqueue(element: response)
             continue
         }
