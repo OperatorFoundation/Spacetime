@@ -74,7 +74,7 @@ public class Simulation
                     skip()
 
                 default:
-                    logAThing(logger: logger, logMessage: "Spacetime.Simulation: \(effect.description)")
+                    logAThing(logger: logger, logMessage: "\(effect.description)")
             }
 
             var handled = false
@@ -87,7 +87,7 @@ public class Simulation
 
                     if let response = module.handleEffect(effect, self.events)
                     {
-                        logAThing(logger: logger, logMessage: "Spacetime.Simulation: \(response.description) ")
+                        logAThing(logger: logger, logMessage: "\(response.description) ")
                         events.enqueue(element: response)
                     }
 
@@ -108,7 +108,7 @@ public class Simulation
                 {
                     if let response = module.handleEffect(effect, self.events)
                     {
-                        logAThing(logger: logger, logMessage: "Spacetime.Simulation: \(response.description) ")
+                        logAThing(logger: logger, logMessage: "\(response.description) ")
                         events.enqueue(element: response)
                     }
 
@@ -139,9 +139,9 @@ func logAThing(logger: Logger?, logMessage: String)
     if let aLog = logger
     {
         #if os(macOS) || os(iOS)
-        aLog.log("\n🪐 \(logMessage, privacy: .public)")
+        aLog.log("\n🪐 \(logMessage, privacy: .public)\n")
         #else
-        aLog.debug("\n🪐 \(logMessage)")
+        aLog.debug("\n🪐 \(logMessage)\n")
         #endif
     }
     else
