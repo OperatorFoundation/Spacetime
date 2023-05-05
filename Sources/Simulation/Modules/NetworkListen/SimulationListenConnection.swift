@@ -5,38 +5,47 @@
 //  Created by Dr. Brandon Wiley on 3/1/22.
 //
 
-import Chord
 import Foundation
+#if os(macOS) || os(iOS)
+import os.log
+#else
+import Logging
+#endif
+
+import Chord
 import Spacetime
 import TransmissionTypes
 
 public class SimulationListenConnection
 {
     let networkConnection: TransmissionTypes.Connection
+    let logger: Logger?
+
     fileprivate var reads: [UUID: Read] = [:]
     fileprivate var writes: [UUID: Write] = [:]
     fileprivate var closes: [UUID: Close] = [:]
 
-    public init(_ networkConnection: TransmissionTypes.Connection)
+    public init(_ networkConnection: TransmissionTypes.Connection, logger: Logger?)
     {
         self.networkConnection = networkConnection
+        self.logger = logger
     }
 
     public func read(request: NetworkListenReadRequest, channel: BlockingQueue<Event>)
     {
-        let read = Read(simulationConnection: self, networkConnection: self.networkConnection, request: request, events: channel)
+        let read = Read(logger: self.logger, simulationConnection: self, networkConnection: self.networkConnection, request: request, events: channel)
         self.reads[read.uuid] = read
     }
 
     public func write(request: NetworkListenWriteRequest, channel: BlockingQueue<Event>)
     {
-        let write = Write(simulationConnection: self, networkConnection: self.networkConnection, request: request, events: channel)
+        let write = Write(logger: self.logger, simulationConnection: self, networkConnection: self.networkConnection, request: request, events: channel)
         self.writes[write.uuid] = write
     }
 
     public func close(request: NetworkListenCloseRequest, state: NetworkListenModule, channel: BlockingQueue<Event>)
     {
-        let close = Close(simulationConnection: self, networkConnection: self.networkConnection, state: state, request: request, events: channel)
+        let close = Close(logger: self.logger, simulationConnection: self, networkConnection: self.networkConnection, state: state, request: request, events: channel)
         self.closes[close.uuid] = close
     }
 }
@@ -50,9 +59,11 @@ fileprivate struct Read
     let queue = DispatchQueue(label: "SimulationListenConnection.Read")
     let response: NetworkListenReadResponse? = nil
     let uuid = UUID()
+    let logger: Logger?
 
-    public init(simulationConnection: SimulationListenConnection, networkConnection: TransmissionTypes.Connection, request: NetworkListenReadRequest, events: BlockingQueue<Event>)
+    public init(logger: Logger?, simulationConnection: SimulationListenConnection, networkConnection: TransmissionTypes.Connection, request: NetworkListenReadRequest, events: BlockingQueue<Event>)
     {
+        self.logger = logger
         self.simulationConnection = simulationConnection
         self.networkConnection = networkConnection
         self.request = request
@@ -109,6 +120,7 @@ fileprivate struct Read
 
 fileprivate struct Write
 {
+    let logger: Logger?
     let simulationConnection: SimulationListenConnection
     let networkConnection: TransmissionTypes.Connection
     let request: NetworkListenWriteRequest
@@ -116,8 +128,9 @@ fileprivate struct Write
     let queue = DispatchQueue(label: "SimulationConnection.Write")
     let uuid = UUID()
 
-    public init(simulationConnection: SimulationListenConnection, networkConnection: TransmissionTypes.Connection, request: NetworkListenWriteRequest, events: BlockingQueue<Event>)
+    public init(logger: Logger?, simulationConnection: SimulationListenConnection, networkConnection: TransmissionTypes.Connection, request: NetworkListenWriteRequest, events: BlockingQueue<Event>)
     {
+        self.logger = logger
         self.simulationConnection = simulationConnection
         self.networkConnection = networkConnection
         self.request = request
@@ -161,6 +174,7 @@ fileprivate struct Write
 
 fileprivate struct Close
 {
+    let logger: Logger?
     let simulationConnection: SimulationListenConnection
     let networkConnection: TransmissionTypes.Connection
     let request: NetworkListenCloseRequest
@@ -169,8 +183,9 @@ fileprivate struct Close
     let queue = DispatchQueue(label: "SimulationConnection.Close")
     let uuid = UUID()
 
-    public init(simulationConnection: SimulationListenConnection, networkConnection: TransmissionTypes.Connection, state: NetworkListenModule, request: NetworkListenCloseRequest, events: BlockingQueue<Event>)
+    public init(logger: Logger?, simulationConnection: SimulationListenConnection, networkConnection: TransmissionTypes.Connection, state: NetworkListenModule, request: NetworkListenCloseRequest, events: BlockingQueue<Event>)
     {
+        self.logger = logger
         self.simulationConnection = simulationConnection
         self.networkConnection = networkConnection
         self.state = state

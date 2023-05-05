@@ -16,6 +16,22 @@ import Chord
 import Spacetime
 import Transmission
 
+public func logAThing(logger: Logger?, logMessage: String)
+{
+    if let aLog = logger
+    {
+#if os(macOS) || os(iOS)
+        aLog.log("\n🪐 \(logMessage, privacy: .public)\n")
+#else
+        aLog.debug("\n🪐 \(logMessage)\n")
+#endif
+    }
+    else
+    {
+        print(logMessage)
+    }
+}
+
 public class Simulation
 {
     let logger: Logger
@@ -134,18 +150,3 @@ public class Simulation
     }
 }
 
-func logAThing(logger: Logger?, logMessage: String)
-{
-    if let aLog = logger
-    {
-        #if os(macOS) || os(iOS)
-        aLog.log("\n🪐 \(logMessage, privacy: .public)\n")
-        #else
-        aLog.debug("\n🪐 \(logMessage)\n")
-        #endif
-    }
-    else
-    {
-        print(logMessage)
-    }
-}

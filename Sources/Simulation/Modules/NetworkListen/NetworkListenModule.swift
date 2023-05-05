@@ -138,7 +138,7 @@ public class NetworkListenModule: Module
             return nil
         }
 
-        let listener = SimulationListener(networkListener)
+        let listener = SimulationListener(networkListener, logger: self.logger)
 
         defer
         {
