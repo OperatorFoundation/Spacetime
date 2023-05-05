@@ -5,6 +5,12 @@
 //  Created by Dr. Brandon Wiley on 2/4/22.
 //
 
+#if os(macOS) || os(iOS)
+import os.log
+#else
+import Logging
+#endif
+
 import Chord
 import Datable
 import Foundation
@@ -55,7 +61,7 @@ public class ConnectConnection: TransmissionTypes.Connection
 
     public func readWithLengthPrefix(prefixSizeInBits: Int) -> Data?
     {
-        self.universe.logger.debug("🔌 ConnectConnection readWithLengthPrefix")
+        logAThing(logger: self.universe.logger, logMessage: "🔌 ConnectConnection readWithLengthPrefix")
         return self.read(.lengthPrefixSizeInBits(prefixSizeInBits))
     }
 
@@ -71,7 +77,7 @@ public class ConnectConnection: TransmissionTypes.Connection
 
     public func writeWithLengthPrefix(data: Data, prefixSizeInBits: Int) -> Bool
     {
-        self.universe.logger.debug("🔌 ConnectConnection readWithLengthPrefix")
+        logAThing(logger: self.universe.logger, logMessage: "🔌 ConnectConnection readWithLengthPrefix")
         return self.spacetimeWrite(data: data, prefixSizeInBits: prefixSizeInBits)
     }
 

@@ -79,7 +79,7 @@ open class Universe
 
     open func processEvent(_ event: Event)
     {
-        self.logger.debug("🛑 Process Event on Universe, but this just returns. Event: \(event.module)")
+        logAThing(logger: self.logger, logMessage: "🛑 Process Event on Universe, but this just returns. Event: \(event.module)")
         return
     }
 

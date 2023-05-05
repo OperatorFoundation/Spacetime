@@ -8,7 +8,6 @@ let package = Package(
     platforms: [.macOS(.v12),
                 .iOS(.v15)],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "Spacetime",
             targets: ["Spacetime"]),
@@ -20,8 +19,6 @@ let package = Package(
             targets: ["Simulation"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
 
         .package(url: "https://github.com/OperatorFoundation/Amber", branch: "main"),
@@ -39,10 +36,13 @@ let package = Package(
         .target(
             name: "Spacetime",
             dependencies: [
-                "Datable",
-
                 .product(name: "ParchmentFile", package: "Parchment"),
+                
+                "Datable",
+                "SwiftHexTools",
+                "Transmission",
             ]),
+        
         .target(
             name: "Universe",
             dependencies: [
@@ -57,6 +57,7 @@ let package = Package(
                 "Spacetime",
                 "TransmissionTypes",
             ]),
+        
         .target(
             name: "Simulation",
             dependencies: [
@@ -69,6 +70,7 @@ let package = Package(
                 "SwiftQueue",
                 "Transmission",
             ]),
+        
         .testTarget(
             name: "SpacetimeTests",
             dependencies: ["Universe", "Simulation", "Datable", "Spacetime"]),
