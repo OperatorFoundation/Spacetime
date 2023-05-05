@@ -87,15 +87,7 @@ public class Simulation
 
                     if let response = module.handleEffect(effect, self.events)
                     {
-                        switch response
-                        {
-                            case is Affected:
-                                skip()
-
-                            default:
-                                print(response.description)
-                        }
-
+                        logAThing(logger: logger, logMessage: "Spacetime.Simulation: \(response.description) ")
                         events.enqueue(element: response)
                     }
 
