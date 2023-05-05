@@ -67,7 +67,7 @@ public class Simulation
         while true
         {
             let effect = self.effects.dequeue()
-            logAThing(logger: logger, logMessage: "Simulation.handleEffects() effect: \(effect)")
+            
             switch effect
             {
                 case is Display:
@@ -139,9 +139,9 @@ func logAThing(logger: Logger?, logMessage: String)
     if let aLog = logger
     {
         #if os(macOS) || os(iOS)
-        aLog.log("🪐 \(logMessage, privacy: .public)")
+        aLog.log("\n🪐 \(logMessage, privacy: .public)")
         #else
-        aLog.debug("🪐 \(logMessage)")
+        aLog.debug("\n🪐 \(logMessage)")
         #endif
     }
     else
