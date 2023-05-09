@@ -70,9 +70,18 @@ fileprivate struct Read
         self.events = events
 
         let uuid = self.uuid
+        
+        let timeoutTime: DispatchTime = DispatchTime.now() + 10e+9 // (10 seconds)nanosecond precision
+        let timeoutLock = DispatchSemaphore(value: 0)
 
-        self.queue.async
+        let readTask = Task
         {
+            defer
+            {
+                simulationConnection.reads.removeValue(forKey: uuid)
+                timeoutLock.signal()
+            }
+            
             switch request.style
             {
                 case .exactSize(let size):
@@ -86,6 +95,7 @@ fileprivate struct Read
                     let response = NetworkListenReadResponse(request.id, request.socketId, result)
                     print(response.description)
                     events.enqueue(element: response)
+                    return
 
                 case .maxSize(let size):
                     guard let result = networkConnection.read(maxSize: size) else
@@ -98,6 +108,7 @@ fileprivate struct Read
                     let response = NetworkListenReadResponse(request.id, request.socketId, result)
                     print(response.description)
                     events.enqueue(element: response)
+                    return
 
                 case .lengthPrefixSizeInBits(let prefixSize):
                     guard let result = networkConnection.readWithLengthPrefix(prefixSizeInBits: prefixSize) else
@@ -111,9 +122,19 @@ fileprivate struct Read
                     let response = NetworkListenReadResponse(request.id, request.socketId, result)
                     print(response.description)
                     events.enqueue(element: response)
+                    return
             }
-
-            simulationConnection.reads.removeValue(forKey: uuid)
+        }
+        
+        
+        let readTaskResultStatus = timeoutLock.wait(timeout: timeoutTime)
+        
+        switch readTaskResultStatus
+        {
+            case .success:
+                logAThing(logger: self.logger, logMessage: "Spacetime read task complete!")
+            case .timedOut:
+                logAThing(logger: self.logger, logMessage: "Spacetime read task resulted in a timeout!")
         }
     }
 }
