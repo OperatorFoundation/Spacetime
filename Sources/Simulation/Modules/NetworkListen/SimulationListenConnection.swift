@@ -71,7 +71,9 @@ fileprivate struct Read
 
         let uuid = self.uuid
         
-        let timeoutTime: DispatchTime = DispatchTime.now() + 10e+9 // (10 seconds)nanosecond precision
+        let timeoutTime: DispatchTime = DispatchTime.now() + 1 // nanosecond precision
+        logAThing(logger: nil, logMessage: "/n/n⏰ Read starting timeout.")
+        
         let timeoutLock = DispatchSemaphore(value: 0)
 
         let readTask = Task
@@ -128,6 +130,7 @@ fileprivate struct Read
         
         
         let readTaskResultStatus = timeoutLock.wait(timeout: timeoutTime)
+        logAThing(logger: nil, logMessage: "⏰ Read timeout complete.\n\n")
         
         switch readTaskResultStatus
         {
