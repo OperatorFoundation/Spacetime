@@ -132,9 +132,9 @@ fileprivate struct Read
         switch readTaskResultStatus
         {
             case .success:
-                logAThing(logger: self.logger, logMessage: "Spacetime read task complete!")
+                logAThing(logger: nil, logMessage: "Spacetime read task complete!")
             case .timedOut:
-                logAThing(logger: self.logger, logMessage: "Spacetime read task resulted in a timeout!")
+                logAThing(logger: nil, logMessage: "Spacetime read task resulted in a timeout!")
         }
     }
 }

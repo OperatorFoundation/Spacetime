@@ -28,7 +28,7 @@ public func logAThing(logger: Logger?, logMessage: String)
     }
     else
     {
-        print(logMessage)
+        print("\n🪐 \(logMessage)\n")
     }
 }
 
