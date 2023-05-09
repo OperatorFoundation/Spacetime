@@ -79,6 +79,7 @@ public class ListenConnection: TransmissionTypes.Connection
             case let response as NetworkListenReadResponse:
                 return response.data
             default:
+                logAThing(logger: self.universe.logger, logMessage: "\n🪐 ~* Received an unexpectec NetworkListenReadResponse: \(result)\n")
                 return Data()
         }
     }
