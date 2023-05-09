@@ -72,7 +72,7 @@ fileprivate struct Read
         let uuid = self.uuid
         
         let timeoutTime: DispatchTime = DispatchTime.now() + .seconds(10) // nanosecond precision
-        logAThing(logger: nil, logMessage: "/n/n⏰ Read starting timeout.")
+        logAThing(logger: nil, logMessage: "/n/n⏰ SimulationListenConnection: Read starting timeout.")
         
         let timeoutLock = DispatchSemaphore(value: 0)
 
@@ -130,7 +130,7 @@ fileprivate struct Read
         
         
         let readTaskResultStatus = timeoutLock.wait(timeout: timeoutTime)
-        logAThing(logger: nil, logMessage: "⏰ Read timeout complete.\n\n")
+        logAThing(logger: nil, logMessage: "⏰ SimulationListenConnection: Read timeout complete.\n\n")
         
         switch readTaskResultStatus
         {
@@ -138,6 +138,10 @@ fileprivate struct Read
                 logAThing(logger: nil, logMessage: "Spacetime read task complete!")
             case .timedOut:
                 logAThing(logger: nil, logMessage: "Spacetime read task resulted in a timeout!")
+                let failure = Failure(request.id)
+                print(failure.description)
+                events.enqueue(element: failure)
+                return
         }
     }
 }
