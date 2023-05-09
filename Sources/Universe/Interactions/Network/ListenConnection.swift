@@ -24,23 +24,54 @@ public class ListenConnection: TransmissionTypes.Connection
 
     public func read(size: Int) -> Data?
     {
-        return self.read(.exactSize(size))
+        do
+        {
+            return try self.read(.exactSize(size))
+        }
+        catch
+        {
+            logAThing(logger: nil, logMessage: "ListenConnection: read(size:) received an error: \(error)")
+            return nil
+        }
     }
 
     public func unsafeRead(size: Int) -> Data?
     {
-        return self.read(.exactSize(size))
+        do
+        {
+            return try self.read(.exactSize(size))
+        }
+        catch
+        {
+            logAThing(logger: nil, logMessage: "ListenConnection: unsafeRead(size:) received an error: \(error)")
+            return nil
+        }
     }
 
     public func read(maxSize: Int) -> Data?
     {
-        return self.read(.maxSize(maxSize))
+        do
+        {
+            return try self.read(.maxSize(maxSize))
+        }
+        catch
+        {
+            logAThing(logger: nil, logMessage: "ListenConnection: read(maxSize:) received an error: \(error)")
+            return nil
+        }
     }
 
     public func readWithLengthPrefix(prefixSizeInBits: Int) -> Data?
     {
-        logAThing(logger: self.universe.logger, logMessage: "🔌 ListenConnection readWithLengthPrefix")
-        return self.read(.lengthPrefixSizeInBits(prefixSizeInBits))
+        do
+        {
+            return try self.read(.lengthPrefixSizeInBits(prefixSizeInBits))
+        }
+        catch
+        {
+            logAThing(logger: nil, logMessage: "ListenConnection: readWithLengthPrefix(prefixSizeInBits:) received an error: \(error)")
+            return nil
+        }
     }
 
     public func write(string: String) -> Bool
@@ -55,7 +86,6 @@ public class ListenConnection: TransmissionTypes.Connection
 
     public func writeWithLengthPrefix(data: Data, prefixSizeInBits: Int) -> Bool
     {
-        logAThing(logger: self.universe.logger, logMessage: "🔌 ListenConnection writeWithLengthPrefix")
         return self.spacetimeWrite(data: data, prefixSizeInBits: prefixSizeInBits)
     }
 
@@ -71,7 +101,7 @@ public class ListenConnection: TransmissionTypes.Connection
         }
     }
 
-    func read(_ style: NetworkListenReadStyle) -> Data
+    func read(_ style: NetworkListenReadStyle) throws -> Data
     {
         let result = self.universe.processEffect(NetworkListenReadRequest(self.uuid, style))
         switch result
@@ -79,8 +109,8 @@ public class ListenConnection: TransmissionTypes.Connection
             case let response as NetworkListenReadResponse:
                 return response.data
             default:
-                logAThing(logger: self.universe.logger, logMessage: "\n🪐 ~* Received an unexpectec NetworkListenReadResponse: \(result)\n")
-                return Data()
+                logAThing(logger: self.universe.logger, logMessage: "\n🪐 Received an unexpected NetworkListenReadResponse: \(result)\n")
+                throw ListenerError.badResponse(result)
         }
     }
 

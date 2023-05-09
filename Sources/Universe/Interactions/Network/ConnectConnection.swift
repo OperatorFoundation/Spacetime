@@ -61,7 +61,6 @@ public class ConnectConnection: TransmissionTypes.Connection
 
     public func readWithLengthPrefix(prefixSizeInBits: Int) -> Data?
     {
-        logAThing(logger: self.universe.logger, logMessage: "🔌 ConnectConnection readWithLengthPrefix")
         return self.read(.lengthPrefixSizeInBits(prefixSizeInBits))
     }
 
