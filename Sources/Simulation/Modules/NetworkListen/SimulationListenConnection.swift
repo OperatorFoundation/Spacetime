@@ -71,7 +71,7 @@ fileprivate struct Read
 
         let uuid = self.uuid
         
-        let timeoutTime: DispatchTime = DispatchTime.now() + 1 // nanosecond precision
+        let timeoutTime: DispatchTime = DispatchTime.now() + .seconds(10) // nanosecond precision
         logAThing(logger: nil, logMessage: "/n/n⏰ Read starting timeout.")
         
         let timeoutLock = DispatchSemaphore(value: 0)
