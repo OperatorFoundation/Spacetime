@@ -19,16 +19,16 @@ let package = Package(
             targets: ["Simulation"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.5.3"),
 
-        .package(url: "https://github.com/OperatorFoundation/Amber", branch: "main"),
-        .package(url: "https://github.com/OperatorFoundation/Chord", branch: "main"),
-        .package(url: "https://github.com/OperatorFoundation/Datable", branch: "main"),
-        .package(url: "https://github.com/OperatorFoundation/Parchment", branch: "main"),
-        .package(url: "https://github.com/OperatorFoundation/SwiftHexTools", branch: "main"),
-        .package(url: "https://github.com/OperatorFoundation/SwiftQueue", branch: "main"),
-        .package(url: "https://github.com/OperatorFoundation/Transmission", branch: "main"),
-        .package(url: "https://github.com/OperatorFoundation/TransmissionTypes", branch: "main"),
+        .package(url: "https://github.com/OperatorFoundation/Amber", branch: "release"),
+        .package(url: "https://github.com/OperatorFoundation/Chord", branch: "release"),
+        .package(url: "https://github.com/OperatorFoundation/Datable", from: "4.0.0"),
+        .package(url: "https://github.com/OperatorFoundation/Parchment", branch: "release"),
+        .package(url: "https://github.com/OperatorFoundation/SwiftHexTools", from: "1.2.6"),
+        .package(url: "https://github.com/OperatorFoundation/SwiftQueue", from: "0.1.2"),
+        .package(url: "https://github.com/OperatorFoundation/Transmission", branch: "release"),
+        .package(url: "https://github.com/OperatorFoundation/TransmissionTypes", branch: "release"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
