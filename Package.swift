@@ -19,7 +19,7 @@ let package = Package(
             targets: ["Simulation"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.5.3"),
+        .package(url: "https://github.com/apple/swift-log", from: "1.5.3"),
 
         .package(url: "https://github.com/OperatorFoundation/Amber", branch: "release"),
         .package(url: "https://github.com/OperatorFoundation/Chord", branch: "release"),
