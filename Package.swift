@@ -20,10 +20,10 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log", from: "1.5.3"),
-        .package(url: "https://github.com/OperatorFoundation/Amber", branch: "release"),
+        .package(url: "https://github.com/OperatorFoundation/Amber", branch: "1.0.0"),
         .package(url: "https://github.com/OperatorFoundation/Chord", from: "0.1.4"),
         .package(url: "https://github.com/OperatorFoundation/Datable", from: "4.0.1"),
-        .package(url: "https://github.com/OperatorFoundation/Parchment", branch: "release"),
+        .package(url: "https://github.com/OperatorFoundation/Parchment", branch: "1.0.0"),
         .package(url: "https://github.com/OperatorFoundation/SwiftHexTools", from: "1.2.6"),
         .package(url: "https://github.com/OperatorFoundation/SwiftQueue", from: "0.1.3"),
         .package(url: "https://github.com/OperatorFoundation/Transmission", from: "1.2.11"),
